@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  teamservice:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: teamservice:latest
+    container_name: TeamService
+    network_mode: "host"
+    environment:
+
+      - TZ=Asia/Shanghai
+
+      - APP_NAME=TeamService
+      - APP_LISTENER=0.0.0.0:8080
+
+      - CONSUL_SERVICE_ADDRESS=localhost
+      - CONSUL_SERVICE_PORT=8080
+      - CONSUL_ADDRESS=127.0.0.1
+      - CONSUL_PORT=8500
+      - CONSUL_NAME=cluster-2-node1-backend
+      - CONSUL_ID=teamservice
+
+      - PROM_PORT=9090
+
+      - REDIS_MASTER_ADDRESS=127.0.0.1:6379
+      - REDIS_SLAVE_ADDRESS=127.0.0.1:6379
+
+      - POSTGRES_MASTER=postgres://postgres:12345@127.0.0.1:5432/gamesparks_db?sslmode=disable
+      - POSTGRES_REPLICAS=postgres://postgres:12345@127.0.0.1:5432/gamesparks_db?sslmode=disable
+
+    restart: unless-stopped
